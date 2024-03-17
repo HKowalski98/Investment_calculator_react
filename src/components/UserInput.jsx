@@ -1,4 +1,6 @@
-export default function UserInput({ calculationData, inputChanged }) {
+import { calculateInvestmentResults } from "../util/investment";
+
+export default function UserInput({ inputData, inputChanged }) {
   return (
     <section id="user-input">
       <div className="input-group">
@@ -8,7 +10,8 @@ export default function UserInput({ calculationData, inputChanged }) {
             min={0}
             id="initialInvestment"
             type="number"
-            value={calculationData.initialInvestment}
+            required
+            value={inputData.initialInvestment}
             onChange={(event) => inputChanged(event)}
           />
         </p>
@@ -18,7 +21,8 @@ export default function UserInput({ calculationData, inputChanged }) {
             min={0}
             id="annualInvestment"
             type="number"
-            value={calculationData.annualInvestment}
+            required
+            value={inputData.annualInvestment}
             onChange={(event) => inputChanged(event)}
           />
         </p>
@@ -30,17 +34,18 @@ export default function UserInput({ calculationData, inputChanged }) {
             min={0}
             id="expectedReturn"
             type="number"
-            value={calculationData.expectedReturn}
+            required
+            value={inputData.expectedReturn}
             onChange={(event) => inputChanged(event)}
           />
         </p>
         <p>
           <label>Duration</label>
           <input
-            min={1}
             id="duration"
             type="number"
-            value={calculationData.duration}
+            required
+            value={inputData.duration}
             onChange={(event) => inputChanged(event)}
           />
         </p>

@@ -2,40 +2,29 @@ import { useState } from "react";
 import Header from "./components/Header";
 import Result from "./components/Result";
 import UserInput from "./components/UserInput";
-import { calculateInvestmentResults } from "./util/investment";
 let initialData = {
-  calculationData: {
-    initialInvestment: 0,
-    annualInvestment: 0,
-    expectedReturn: 0,
-    duration: 1,
-  },
-  annualData: [],
+  initialInvestment: 0,
+  annualInvestment: 0,
+  expectedReturn: 0,
+  duration: 1,
 };
 function App() {
-  let [appData, setAppData] = useState({ ...initialData });
+  let [userInput, setUserInput] = useState({ ...initialData });
 
   function inputChangedHandler(event) {
-    if (isNaN(parseFloat(event.target.value))) return;
-    setAppData((prevData) => {
-      let newData = { ...prevData, ...prevData.calculationData };
-      newData.annualData = calculateInvestmentResults({
-        ...newData.calculationData,
-        [event.target.id]: parseFloat(event.target.value),
-      });
-      newData.calculationData = {
-        ...newData.calculationData,
-        [event.target.id]: parseFloat(event.target.value),
-      };
-      return newData;
+    setUserInput((prevData) => {
+      return { ...prevData, [event.target.id]: +event.target.value };
     });
   }
+
+  const inputIsValid = userInput.duration > 0;
 
   return (
     <>
       <Header />;
-      <UserInput calculationData={appData.calculationData} inputChanged={inputChangedHandler} />
-      <Result annualData={appData.annualData} />
+      <UserInput inputData={userInput} inputChanged={inputChangedHandler} />
+      {!inputIsValid && <p className="center">Please enter duration grater than zero</p>}
+      {inputIsValid && <Result inputData={userInput} />}
     </>
   );
 }
